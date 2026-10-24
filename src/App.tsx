@@ -16,6 +16,7 @@ import { DecisionAnalysisPage } from './pages/DecisionAnalysisPage';
 import { SampleInformationPage } from './pages/SampleInformationPage';
 import { GameTheoryPage } from './pages/GameTheoryPage';
 import { QueuingPage } from './pages/QueuingPage';
+import { MultiChannelPage } from './pages/MultiChannelPage';
 
 const PAGE_COMPONENTS: Record<PageId, ComponentType> = {
   overview: OverviewPage,
@@ -23,6 +24,7 @@ const PAGE_COMPONENTS: Record<PageId, ComponentType> = {
   sample: SampleInformationPage,
   game: GameTheoryPage,
   queuing: QueuingPage,
+  multichannel: MultiChannelPage,
 };
 
 type Mode = 'analysis' | 'presentation';
@@ -73,6 +75,7 @@ function AnalysisMode() {
       sample: [],
       game: [],
       queuing: [],
+      multichannel: [],
     };
     for (const s of SECTIONS) map[s.page].push(s);
     return map;

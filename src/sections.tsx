@@ -23,8 +23,19 @@ import { QueuingOverview } from './components/queuing/QueuingOverview';
 import { QueuingMetrics } from './components/queuing/QueuingMetrics';
 import { QueuingProbabilities } from './components/queuing/QueuingProbabilities';
 import { QueuingImprovement } from './components/queuing/QueuingImprovement';
+import { MultiChannelGlossary } from './components/multichannel/MultiChannelGlossary';
+import { MultiChannelOverview } from './components/multichannel/MultiChannelOverview';
+import { MultiChannelMetrics } from './components/multichannel/MultiChannelMetrics';
+import { MultiChannelProbabilities } from './components/multichannel/MultiChannelProbabilities';
+import { MultiChannelComparison } from './components/multichannel/MultiChannelComparison';
 
-export type PageId = 'overview' | 'decision' | 'sample' | 'game' | 'queuing';
+export type PageId =
+  | 'overview'
+  | 'decision'
+  | 'sample'
+  | 'game'
+  | 'queuing'
+  | 'multichannel';
 
 export interface SectionDef {
   id: string;
@@ -43,6 +54,7 @@ export const PAGES: { id: PageId; label: string }[] = [
   { id: 'sample', label: 'Información muestral' },
   { id: 'game', label: 'Teoría de juegos' },
   { id: 'queuing', label: 'Teoría de colas' },
+  { id: 'multichannel', label: 'Canales múltiples (M/M/5)' },
 ];
 
 export const SECTIONS: SectionDef[] = [
@@ -64,6 +76,11 @@ export const SECTIONS: SectionDef[] = [
   { id: 'queuing-metrics', navLabel: 'Características operativas', page: 'queuing', presentation: true, Component: QueuingMetrics, description: 'Métricas M/M/1: P0, Lq, L, Wq, W y Pw con fórmula e interpretación.' },
   { id: 'queuing-prob', navLabel: 'Probabilidades Pn', page: 'queuing', presentation: true, Component: QueuingProbabilities, description: 'Distribución del número de clientes en el sistema: P(n=k) y P(n>k).' },
   { id: 'queuing-improve', navLabel: 'Mejora y comparación', page: 'queuing', presentation: true, Component: QueuingImprovement, description: 'Escenario de mejora (μ mayor) y comparación antes vs. después.' },
+  { id: 'mc-glossary', navLabel: 'Glosario CircleCI', page: 'multichannel', presentation: false, Component: MultiChannelGlossary, description: 'Términos de CircleCI (pipeline, workflow, job, runner, concurrencia) con analogía del restaurante.' },
+  { id: 'mc-system', navLabel: 'Sistema y parámetros', page: 'multichannel', presentation: true, Component: MultiChannelOverview, description: 'Modelo M/M/5: elementos del sistema, datos de entrada y cálculo de λ total, μ, carga (a) y utilización (ρ).' },
+  { id: 'mc-metrics', navLabel: 'Características (Erlang C)', page: 'multichannel', presentation: true, Component: MultiChannelMetrics, description: 'Características operativas M/M/5 con Erlang C: P0, Pw, Lq, L, Wq y W con fórmula e interpretación.' },
+  { id: 'mc-prob', navLabel: 'Probabilidades Pn', page: 'multichannel', presentation: true, Component: MultiChannelProbabilities, description: 'Distribución del número de runs en el sistema: P(n=k), P(n≤k) y P(n>k).' },
+  { id: 'mc-comparison', navLabel: 'Comparación de escenarios', page: 'multichannel', presentation: true, Component: MultiChannelComparison, description: 'Comparación de tres escenarios: M/M/1 sin mejora, M/M/1 con mejora y M/M/5.' },
 ];
 
 /** Orden explícito de las diapositivas del modo presentación. */
@@ -81,6 +98,10 @@ export const PRESENTATION_ORDER: string[] = [
   'queuing-metrics',
   'queuing-prob',
   'queuing-improve',
+  'mc-system',
+  'mc-metrics',
+  'mc-prob',
+  'mc-comparison',
 ];
 
 export function presentationSections(): SectionDef[] {

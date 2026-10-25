@@ -17,6 +17,7 @@ import { SampleInformationPage } from './pages/SampleInformationPage';
 import { GameTheoryPage } from './pages/GameTheoryPage';
 import { QueuingPage } from './pages/QueuingPage';
 import { MultiChannelPage } from './pages/MultiChannelPage';
+import { PertPage } from './pages/PertPage';
 
 const PAGE_COMPONENTS: Record<PageId, ComponentType> = {
   overview: OverviewPage,
@@ -25,6 +26,7 @@ const PAGE_COMPONENTS: Record<PageId, ComponentType> = {
   game: GameTheoryPage,
   queuing: QueuingPage,
   multichannel: MultiChannelPage,
+  pert: PertPage,
 };
 
 type Mode = 'analysis' | 'presentation';
@@ -76,6 +78,7 @@ function AnalysisMode() {
       game: [],
       queuing: [],
       multichannel: [],
+      pert: [],
     };
     for (const s of SECTIONS) map[s.page].push(s);
     return map;

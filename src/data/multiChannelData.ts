@@ -39,4 +39,16 @@ export const defaultMultiChannelData: MultiChannelData = {
   improvementFactor: 0.5,
   // Niveles k de la tabla de probabilidades (0..6, como en el informe).
   pnLevels: 6,
+  references: [
+    { id: '[1]', text: 'CircleCI. The 2025 State of Software Delivery. Tabla "Summary of 2025 software delivery metrics" y sección "Methodology". Publicado en 2025; consultado el 1 de octubre de 2026.', url: 'https://circleci.com/landing-pages/assets/2025-state-of-software-delivery-report.pdf' },
+    { id: '[2]', text: 'CircleCI. Pricing (límites de concurrencia y de runners propios por plan). Consultado el 23 de octubre de 2026.', url: 'https://circleci.com/pricing/' },
+    { id: '[3]', text: 'CircleCI. Pipelines overview. Consultado el 23 de octubre de 2026.', url: 'https://circleci.com/docs/pipelines/' },
+    { id: '[4]', text: 'CircleCI. Jobs and steps. Consultado el 23 de octubre de 2026.', url: 'https://circleci.com/docs/guides/orchestrate/jobs-steps/' },
+    { id: '[5]', text: 'CircleCI Support. Understanding Jobs and Tasks in CircleCI. Consultado el 23 de octubre de 2026.', url: 'https://support.circleci.com/en/articles/15090472-understanding-jobs-and-tasks-in-circleci' },
+    { id: '[6]', text: 'CircleCI. Plans overview (runners propios). Consultado el 23 de octubre de 2026.', url: 'https://circleci.com/docs/plan-overview/' },
+    { id: '[7]', text: 'CircleCI. Config best practices: concurrency and parallelism. Consultado el 23 de octubre de 2026.', url: 'https://circleci.com/blog/config-best-practices-concurrency-parallelism' },
+    { id: '[8]', text: 'Innowise. About us (empleados). Consultado el 23 de octubre de 2026.', url: 'https://innowise.com/about-us/' },
+    { id: '[9]', text: 'Clutch. Perfil de Innowise (proyectos entregados). Consultado el 23 de octubre de 2026.', url: 'https://clutch.co/go-to-review/innowise/179947' },
+    { id: '[10]', text: 'Pangea. Perfil de Innowise (años de trayectoria). Consultado el 23 de octubre de 2026.', url: 'https://pangea.ai/agencies/innowise-sp-z-oo' },
+  ],
 };

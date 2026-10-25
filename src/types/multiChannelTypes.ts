@@ -19,6 +19,13 @@ export type { TimeDisplayUnit } from './queuingTypes';
 
 import type { TimeDisplayUnit } from './queuingTypes';
 
+/** Referencia bibliográfica del caso. */
+export interface MultiChannelReference {
+  id: string; // '[1]'
+  text: string;
+  url?: string;
+}
+
 /** Datos de entrada del modelo M/M/s (única fuente de entrada). */
 export interface MultiChannelData {
   meta: {
@@ -48,6 +55,8 @@ export interface MultiChannelData {
   improvementFactor: number;
   /** Número de niveles k mostrados en la tabla de probabilidades Pn. */
   pnLevels: number;
+  /** Referencias bibliográficas del caso. */
+  references: MultiChannelReference[];
 }
 
 /** Características operativas de un sistema M/M/s (fórmulas de Erlang C). */

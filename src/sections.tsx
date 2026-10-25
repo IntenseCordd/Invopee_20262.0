@@ -28,6 +28,17 @@ import { MultiChannelOverview } from './components/multichannel/MultiChannelOver
 import { MultiChannelMetrics } from './components/multichannel/MultiChannelMetrics';
 import { MultiChannelProbabilities } from './components/multichannel/MultiChannelProbabilities';
 import { MultiChannelComparison } from './components/multichannel/MultiChannelComparison';
+import { MultiChannelReferences } from './components/multichannel/MultiChannelReferences';
+import { PertSummary } from './components/pert/PertSummary';
+import { PertProcess } from './components/pert/PertProcess';
+import { PertProject } from './components/pert/PertProject';
+import { PertActivities } from './components/pert/PertActivities';
+import { PertDurations } from './components/pert/PertDurations';
+import { PertResults } from './components/pert/PertResults';
+import { PertMonitoring } from './components/pert/PertMonitoring';
+import { PertTraceability } from './components/pert/PertTraceability';
+import { PertGlossary } from './components/pert/PertGlossary';
+import { PertReferences } from './components/pert/PertReferences';
 
 export type PageId =
   | 'overview'
@@ -35,7 +46,8 @@ export type PageId =
   | 'sample'
   | 'game'
   | 'queuing'
-  | 'multichannel';
+  | 'multichannel'
+  | 'pert';
 
 export interface SectionDef {
   id: string;
@@ -55,6 +67,7 @@ export const PAGES: { id: PageId; label: string }[] = [
   { id: 'game', label: 'Teoría de juegos' },
   { id: 'queuing', label: 'Teoría de colas' },
   { id: 'multichannel', label: 'Canales múltiples (M/M/5)' },
+  { id: 'pert', label: 'Gestión de proyectos (PERT/CPM)' },
 ];
 
 export const SECTIONS: SectionDef[] = [
@@ -81,6 +94,17 @@ export const SECTIONS: SectionDef[] = [
   { id: 'mc-metrics', navLabel: 'Características (Erlang C)', page: 'multichannel', presentation: true, Component: MultiChannelMetrics, description: 'Características operativas M/M/5 con Erlang C: P0, Pw, Lq, L, Wq y W con fórmula e interpretación.' },
   { id: 'mc-prob', navLabel: 'Probabilidades Pn', page: 'multichannel', presentation: true, Component: MultiChannelProbabilities, description: 'Distribución del número de runs en el sistema: P(n=k), P(n≤k) y P(n>k).' },
   { id: 'mc-comparison', navLabel: 'Comparación de escenarios', page: 'multichannel', presentation: true, Component: MultiChannelComparison, description: 'Comparación de tres escenarios: M/M/1 sin mejora, M/M/1 con mejora y M/M/5.' },
+  { id: 'mc-references', navLabel: 'Referencias', page: 'multichannel', presentation: false, Component: MultiChannelReferences, description: 'Fuentes del caso M/M/5; cada enlace abre la fuente original.' },
+  { id: 'pert-summary', navLabel: 'Resumen', page: 'pert', presentation: true, Component: PertSummary, description: 'Resumen del trabajo: proyecto PanDía, duración esperada, ruta crítica e incertidumbre.' },
+  { id: 'pert-process', navLabel: 'Proceso de 11 etapas', page: 'pert', presentation: false, Component: PertProcess, description: 'El proceso real de Innowise paso a paso, unido en 11 etapas.' },
+  { id: 'pert-project', navLabel: 'Proyecto PanDía', page: 'pert', presentation: false, Component: PertProject, description: 'Datos del proyecto de ejemplo PanDía: alcance, presupuesto, equipo y objetivos.' },
+  { id: 'pert-activities', navLabel: 'Actividades y orden (EDT)', page: 'pert', presentation: true, Component: PertActivities, description: 'Las 14 actividades (A–N), su etapa y sus precedencias.' },
+  { id: 'pert-durations', navLabel: 'Duraciones (3 tiempos)', page: 'pert', presentation: true, Component: PertDurations, description: 'Estimaciones optimista, más probable y pesimista, y el tiempo esperado Tₑ.' },
+  { id: 'pert-results', navLabel: 'Resultados CPM', page: 'pert', presentation: true, Component: PertResults, description: 'Resultados CPM: inicio/fin temprano y lejano, holgura, ruta crítica, duración y σ.' },
+  { id: 'pert-monitoring', navLabel: 'Seguimiento', page: 'pert', presentation: false, Component: PertMonitoring, description: 'Cómo se vigilaría el proyecto comparando lo planeado con lo real.' },
+  { id: 'pert-traceability', navLabel: 'Real vs inventado', page: 'pert', presentation: false, Component: PertTraceability, description: 'Trazabilidad: qué datos son reales, cuáles hipotéticos y qué limitaciones hay.' },
+  { id: 'pert-glossary', navLabel: 'Glosario', page: 'pert', presentation: false, Component: PertGlossary, description: 'Términos clave de gestión de proyectos (PERT, CPM, holgura, ruta crítica…).' },
+  { id: 'pert-references', navLabel: 'Referencias', page: 'pert', presentation: false, Component: PertReferences, description: 'Fuentes consultadas para el caso.' },
 ];
 
 /** Orden explícito de las diapositivas del modo presentación. */
@@ -102,6 +126,10 @@ export const PRESENTATION_ORDER: string[] = [
   'mc-metrics',
   'mc-prob',
   'mc-comparison',
+  'pert-summary',
+  'pert-activities',
+  'pert-durations',
+  'pert-results',
 ];
 
 export function presentationSections(): SectionDef[] {

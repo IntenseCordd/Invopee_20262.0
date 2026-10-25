@@ -1,0 +1,122 @@
+/**
+ * pertData.ts — datos iniciales del caso de GESTIÓN DE PROYECTOS (PERT/CPM).
+ *
+ * Caso: proyecto de ejemplo "PanDía" (Innowise Group). Las etapas del proceso
+ * y los rangos de duración tienen fuente pública [1]–[6]; el proyecto, el
+ * cliente y los tiempos "más probables" son hipotéticos y así se declaran.
+ */
+import type { PertData } from '../types/pertTypes';
+
+export const defaultPertData: PertData = {
+  meta: {
+    title: 'Cómo se planifica un proyecto de software',
+    project: 'PanDía — app para pedir pan y pasteles con anticipación',
+    company: 'Innowise Group',
+    course: 'Investigación de Operaciones (planificación y control de proyectos)',
+    date: '25 de octubre de 2026',
+    timeUnit: 'días hábiles',
+    startDate: 'Lunes 2 de noviembre de 2026',
+    summary: [
+      'Innowise Group construye software a la medida para otras empresas. Aquí explicamos, con palabras sencillas, por qué pasos pasa uno de esos proyectos, qué se hace en cada paso y cuánto tiempo podría tardar.',
+      'Se parece a construir una casa: primero se habla con el dueño, luego la lista de lo que necesita, el calendario y el presupuesto, y luego los planos. Después se construye, se inspecciona, se entregan las llaves y queda una garantía. Con el software pasa casi igual.',
+      'Para hacer cuentas inventamos el proyecto PanDía: una app para que los clientes de una cadena de panaderías (ficticia) pidan y recojan en la tienda. Los pasos del proceso son reales [1][2]; el proyecto, el cliente, el presupuesto y la mayoría de las duraciones son hipotéticos.',
+      'Con las duraciones estimadas, el proyecto tardaría en promedio 94.33 días hábiles (unas 19 semanas). Hay una cadena de 12 actividades sin ningún margen de retraso (la "ruta crítica"): si cualquiera se atrasa, todo el proyecto se atrasa.',
+    ],
+  },
+  stages: [
+    { n: 1, name: 'Descubrimiento (iniciación)', does: 'Sesiones con el cliente para entender procesos, metas y obstáculos, y evaluar riesgos. Entrega: una idea clara del problema.', ifSkipped: 'Cada persona imaginaría un proyecto distinto.', source: '[1] Etapa 1; [2] Discovery' },
+    { n: 2, name: 'Definición del alcance', does: 'Se acuerda qué incluye el proyecto y qué no, cómo se trabajará y cómo se comunicarán. Entrega: un alcance acordado.', ifSkipped: 'El cliente esperaría cosas que nunca se prometieron.', source: '[1] Etapa 1; [2] Scoping' },
+    { n: 3, name: 'Análisis de requisitos', does: 'Se detalla lo que el programa debe hacer y se revisa si es técnicamente posible. Entrega: requisitos confirmados.', ifSkipped: 'Se descubriría tarde que algo es imposible o mal entendido.', source: '[1] Etapa 2' },
+    { n: 4, name: 'Planificación', does: 'Se arma la hoja de ruta, se reparten recursos, se fijan hitos y puntos de control, y se planea el manejo de riesgos. Entrega: un plan con fechas.', ifSkipped: 'Nadie sabría cuándo termina ni cuánto cuesta.', source: '[1] Etapa 3; [2] Planning' },
+    { n: 5, name: 'Prototipado', does: 'Las ideas se convierten en maquetas que el cliente puede ver y probar. Entrega: una maqueta aprobada.', ifSkipped: 'El cliente vería el programa por primera vez cuando ya está hecho.', source: '[2] Prototyping' },
+    { n: 6, name: 'Diseño y arquitectura', does: 'Se diseña la estructura interna, la seguridad, dónde se guardan los datos y cómo se conectan las partes. Entrega: los "planos" del sistema.', ifSkipped: 'Se construiría sin planos y arreglarlo después costaría mucho.', source: '[1] Etapa 4; [2] Architecture' },
+    { n: 7, name: 'Desarrollo', does: 'Los programadores escriben el programa, se revisan entre ellos y usan herramientas automáticas. Entrega: el programa funcionando por partes.', ifSkipped: 'No habría producto.', source: '[1] Etapa 5; [2] Development' },
+    { n: 8, name: 'Pruebas (calidad)', does: 'Se busca que el programa falle antes que frente al cliente: pruebas automáticas y manuales, de uso, de rapidez y de no romper lo viejo. Entrega: programa probado.', ifSkipped: 'Los errores los encontraría el cliente.', source: '[1] Etapa 6; [2] Testing' },
+    { n: 9, name: 'Validación', does: 'Se prueba en distintos navegadores, dispositivos y situaciones, y se confirma que cumple lo que el negocio necesita. Entrega: confirmación de comportamiento.', ifSkipped: 'Fallaría en el celular o navegador de algún cliente.', source: '[2] Validation' },
+    { n: 10, name: 'Despliegue', does: 'Se publica el programa por etapas, con revisiones de seguridad y opción de volver atrás. Entrega: el programa en uso.', ifSkipped: 'El producto estaría terminado pero nadie podría usarlo.', source: '[1] Etapa 7; [2] Deployment' },
+    { n: 11, name: 'Soporte posterior', does: 'Tras el lanzamiento se vigila el rendimiento, se corrigen errores y se atienden cambios. Entrega: un programa que se mantiene sano.', ifSkipped: 'Los problemas del uso real no tendrían responsable.', source: '[1] Etapa 8; [2] Support' },
+  ],
+  projectFacts: [
+    { label: 'Nombre', content: 'PanDía: app web y móvil para pedir pan y pasteles con anticipación', type: 'HIPOTÉTICO' },
+    { label: 'Cliente', content: '"Panaderías Modelo S.A.", empresa ficticia con 12 sucursales', type: 'HIPOTÉTICO' },
+    { label: 'Qué incluye', content: 'Elegir productos, pagar en línea y recoger en sucursal; panel para que cada sucursal vea y prepare sus pedidos', type: 'HIPOTÉTICO' },
+    { label: 'Qué no incluye', content: 'Entregas a domicilio y programa de puntos', type: 'HIPOTÉTICO' },
+    { label: 'Presupuesto', content: 'USD 85,000. El formulario de Innowise ofrece el rango "$30K–$100K" [1]; que PanDía caiga ahí es suposición', type: 'HIPOTÉTICO (rango en [1])' },
+    { label: 'Inicio', content: 'Lunes 2 de noviembre de 2026', type: 'HIPOTÉTICO' },
+    { label: 'Modelo de contratación', content: 'Proyecto completo en manos de Innowise, modelo que la empresa ofrece [2]', type: 'REAL [2] + elección hipotética' },
+    { label: 'Equipo propuesto', content: '1 coordinador, 1 arquitecto, 4 desarrolladores, 2 de calidad, 1 de operación. Los roles existen en Innowise [1]; la cantidad es inventada', type: 'HIPOTÉTICO (roles en [1])' },
+    { label: 'Objetivos', content: 'Lanzar la primera versión en la fecha calculada; que un cliente complete un pedido sin errores graves; que cada sucursal vea sus pedidos al instante', type: 'HIPOTÉTICO' },
+  ],
+  activities: [
+    { id: 'A', name: 'Hablar con el cliente para recopilar requisitos', stage: '1 Descubrimiento', predecessors: [], optimistic: 2, mostLikely: 3, pessimistic: 4, support: 'Bloque real A + C + D: 5 a 10 días [3]' },
+    { id: 'B', name: 'Evaluar qué podría salir mal', stage: '1 Descubrimiento', predecessors: [], optimistic: 1, mostLikely: 2, pessimistic: 4, support: 'Hipotético (a la vez que A)' },
+    { id: 'C', name: 'Definir el alcance y el plan de comunicación', stage: '2 Alcance', predecessors: ['A', 'B'], optimistic: 1, mostLikely: 1, pessimistic: 2, support: 'Bloque real A + C + D [3]' },
+    { id: 'D', name: 'Analizar requisitos y revisar viabilidad técnica', stage: '3 Requisitos', predecessors: ['C'], optimistic: 2, mostLikely: 3, pessimistic: 4, support: 'Bloque real A + C + D [3]' },
+    { id: 'E', name: 'Elaborar el plan: hoja de ruta, recursos, hitos y controles', stage: '4 Planificación', predecessors: ['D'], optimistic: 5, mostLikely: 7, pessimistic: 10, support: 'Mín. y máx. reales: 1 a 2 semanas [4][5][6]' },
+    { id: 'F', name: 'Crear maquetas o prototipos', stage: '5 Prototipado', predecessors: ['E'], optimistic: 7, mostLikely: 8, pessimistic: 10, support: 'Mín. y máx. reales: 7 a 10 días [4]' },
+    { id: 'G', name: 'Diseñar la estructura del sistema y su seguridad', stage: '6 Diseño', predecessors: ['F'], optimistic: 3, mostLikely: 5, pessimistic: 8, support: 'Hipotético' },
+    { id: 'H', name: 'Diseñar la base de datos y las conexiones (API)', stage: '6 Diseño', predecessors: ['F'], optimistic: 2, mostLikely: 4, pessimistic: 7, support: 'Hipotético (a la vez que G)' },
+    { id: 'I', name: 'Programar, con pruebas pequeñas de cada pieza', stage: '7 Desarrollo', predecessors: ['G', 'H'], optimistic: 17, mostLikely: 24, pessimistic: 32, support: 'Bloque real I + J: 20 a 40 días [4][5]' },
+    { id: 'J', name: 'Revisión entre programadores, análisis e integraciones', stage: '7 Desarrollo', predecessors: ['I'], optimistic: 3, mostLikely: 5, pessimistic: 8, support: 'Bloque real I + J [4][5]' },
+    { id: 'K', name: 'Pruebas automáticas y manuales, de uso y rapidez', stage: '8 Pruebas', predecessors: ['J'], optimistic: 5, mostLikely: 7, pessimistic: 10, support: 'Mín. y máx. reales: 1 a 2 semanas [4][6]' },
+    { id: 'L', name: 'Validar en navegadores, celulares y casos raros', stage: '9 Validación', predecessors: ['K'], optimistic: 2, mostLikely: 3, pessimistic: 5, support: 'Hipotético' },
+    { id: 'M', name: 'Revisiones de seguridad y publicación por etapas', stage: '10 Despliegue', predecessors: ['L'], optimistic: 10, mostLikely: 12, pessimistic: 14, support: 'Mín. y máx. reales: 10 a 14 días [4]' },
+    { id: 'N', name: 'Vigilar y corregir errores tras el lanzamiento', stage: '11 Soporte', predecessors: ['M'], optimistic: 10, mostLikely: 15, pessimistic: 20, support: 'Hipotético: soporte inicial fijado por nosotros' },
+  ],
+  monitoring: [
+    'Revisar el avance cada semana frente al plan, usando los hitos y puntos de control de calidad que Innowise fija en su planificación [1].',
+    'Vigilar primero la ruta crítica: si una actividad crítica se atrasa 3 días, el proyecto termina 3 días más tarde.',
+    'Usar la holgura: si H tarda 1 día más, no pasa nada; si tarda 2 días más, el proyecto se atrasa 1 día y H pasa a ser crítica.',
+    'Poner atención donde hay más incertidumbre: el desarrollo del código (I) tiene el rango más amplio, de 17 a 32 días.',
+  ],
+  traceability: {
+    real: [
+      'Las etapas del proceso y su orden [1][2]',
+      'Las tareas que se hacen en cada etapa [1][2]',
+      'Los equipos, roles y prácticas que Innowise declara [1][2]',
+      'Rangos de duración de descubrimiento, planificación, prototipado, desarrollo, pruebas y despliegue [3][4][5][6]',
+      'El programa y el método de cálculo [7][8]',
+    ],
+    hypothetical: [
+      'El proyecto PanDía, el cliente, el alcance, el presupuesto y la fecha de inicio',
+      'Los tiempos "más probables" y las duraciones de B, G, H, L y N',
+      'El tamaño de los equipos',
+      'El orden de las actividades dentro de cada etapa y el paralelismo de A con B y de G con H',
+      'Las fechas calendario de lanzamiento y fin (no cuentan festivos)',
+    ],
+    limitations: [
+      'Innowise no publica cuánto dura cada etapa; casi todas las duraciones se apoyan en rangos de la industria [4][5][6] o son hipotéticas.',
+      'La unión de las dos descripciones del proceso en 11 etapas es interpretación nuestra.',
+      'No se tuvieron en cuenta festivos ni vacaciones.',
+    ],
+  },
+  glossary: [
+    { term: 'Actividad', meaning: 'Una tarea concreta dentro del proyecto, como "diseñar la base de datos".' },
+    { term: 'Alcance', meaning: 'Lo que el proyecto incluye y lo que no incluye.' },
+    { term: 'API', meaning: 'Una "puerta" por la que dos programas se hablan e intercambian información.' },
+    { term: 'Arquitectura', meaning: 'La estructura interna de un programa, como los planos de una casa.' },
+    { term: 'CPM (método de la ruta crítica)', meaning: 'Forma de calcular cuánto dura un proyecto y qué actividades no pueden atrasarse.' },
+    { term: 'Despliegue', meaning: 'Publicar el programa para que la gente lo use de verdad.' },
+    { term: 'EDT', meaning: 'Estructura de desglose del trabajo: la lista de todo lo que hay que hacer, como el índice de un libro.' },
+    { term: 'Hito', meaning: 'Un punto importante del camino, como "el diseño quedó aprobado".' },
+    { term: 'Holgura', meaning: 'Cuánto se puede atrasar una actividad sin retrasar todo el proyecto.' },
+    { term: 'PERT', meaning: 'Técnica que calcula el tiempo de un proyecto usando tres estimaciones por actividad: optimista, más probable y pesimista.' },
+    { term: 'Precedencia', meaning: 'Qué actividad debe terminar antes de que empiece otra.' },
+    { term: 'Prototipo', meaning: 'Una maqueta del programa para verlo y probarlo antes de construirlo.' },
+    { term: 'Puerta de control de calidad', meaning: 'Un punto de revisión que hay que pasar antes de avanzar a la siguiente etapa.' },
+    { term: 'Requisito', meaning: 'Algo que el programa debe hacer o cumplir.' },
+    { term: 'Riesgo', meaning: 'Algo que podría salir mal y afectar el proyecto.' },
+    { term: 'Ruta crítica', meaning: 'La cadena de actividades sin margen de retraso; define la duración del proyecto.' },
+    { term: 'Desviación estándar', meaning: 'Medida de cuánto puede alejarse el resultado real del promedio estimado.' },
+  ],
+  references: [
+    { id: '[1]', text: 'Innowise Group. Quality management at Innowise (proceso paso a paso, etapas 1 a 8).', url: 'https://innowise.com/about-us/quality-management/' },
+    { id: '[2]', text: 'Innowise Group. Outsourcing software development service (hoja de ruta de entrega de 10 pasos).', url: 'https://innowise.com/outsourcing-software-development-service/' },
+    { id: '[3]', text: 'Innowise Group. Discovery phase in software development (duración del descubrimiento: 1 a 2 semanas en proyectos pequeños).', url: 'https://innowise.com/blog/project-discovery-phase-in-software-development' },
+    { id: '[4]', text: 'Okoone. How to plan your MVP timeline for maximum impact (planificación, diseño, desarrollo, pruebas y despliegue).', url: 'https://www.okoone.com/spark/product-design-research/how-to-plan-your-mvp-timeline-for-maximum-impact/' },
+    { id: '[5]', text: 'Adamfard. MVP timeline: how long should it take to build an MVP (planificación y desarrollo).', url: 'https://adamfard.com/blog/mvp-timeline-how-long-should-it-take-to-build-an-mvp' },
+    { id: '[6]', text: 'Netguru. How long does it take to build an MVP? A practical guide (planificación y pruebas).', url: 'https://www.netguru.com/blog/mvp-timeline' },
+    { id: '[7]', text: 'Weiss, H. J. QM for Windows (POM-QM), módulo Project Management (PERT/CPM), opción Three Time Estimate.' },
+    { id: '[8]', text: 'Presentación del curso "PERT-CPM (2020-2)", diapositivas sobre tiempos tempranos y ruta crítica.' },
+  ],
+};

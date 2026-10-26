@@ -28,6 +28,32 @@ export function expectedTime(
   return (optimistic + 4 * mostLikely + pessimistic) / 6;
 }
 
+/**
+ * Suma `businessDays` días hábiles (lun–vie) a una fecha ISO (YYYY-MM-DD),
+ * sin contar festivos. Devuelve la fecha resultante.
+ */
+export function addBusinessDays(startISO: string, businessDays: number): Date {
+  const [y, m, d] = startISO.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  let added = 0;
+  const target = Math.max(0, Math.floor(businessDays));
+  while (added < target) {
+    date.setDate(date.getDate() + 1);
+    const dow = date.getDay();
+    if (dow !== 0 && dow !== 6) added++;
+  }
+  return date;
+}
+
+/** Formatea una fecha a texto corto en español: "19 feb 2027". */
+export function formatShortDate(date: Date): string {
+  return date.toLocaleDateString('es', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
 /** Varianza = ((p − o) / 6)². */
 export function activityVariance(
   optimistic: number,

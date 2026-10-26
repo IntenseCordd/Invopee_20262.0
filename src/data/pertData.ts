@@ -16,6 +16,7 @@ export const defaultPertData: PertData = {
     date: '25 de octubre de 2026',
     timeUnit: 'días hábiles',
     startDate: 'Lunes 2 de noviembre de 2026',
+    startDateISO: '2026-11-02',
     summary: [
       'Innowise Group construye software a la medida para otras empresas. Aquí explicamos, con palabras sencillas, por qué pasos pasa uno de esos proyectos, qué se hace en cada paso y cuánto tiempo podría tardar.',
       'Se parece a construir una casa: primero se habla con el dueño, luego la lista de lo que necesita, el calendario y el presupuesto, y luego los planos. Después se construye, se inspecciona, se entregan las llaves y queda una garantía. Con el software pasa casi igual.',

@@ -62,7 +62,8 @@ export interface PertData {
     course: string;
     date: string;
     timeUnit: string; // 'días hábiles'
-    startDate: string; // fecha de inicio hipotética
+    startDate: string; // fecha de inicio hipotética (texto)
+    startDateISO: string; // fecha de inicio en formato ISO (YYYY-MM-DD)
     summary: string[]; // párrafos del resumen
   };
   stages: ProcessStage[];

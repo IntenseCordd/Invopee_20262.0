@@ -35,6 +35,8 @@ import { PertProject } from './components/pert/PertProject';
 import { PertActivities } from './components/pert/PertActivities';
 import { PertDurations } from './components/pert/PertDurations';
 import { PertResults } from './components/pert/PertResults';
+import { PertNetwork } from './components/pert/PertNetwork';
+import { PertGantt } from './components/pert/PertGantt';
 import { PertMonitoring } from './components/pert/PertMonitoring';
 import { PertTraceability } from './components/pert/PertTraceability';
 import { PertGlossary } from './components/pert/PertGlossary';
@@ -101,6 +103,8 @@ export const SECTIONS: SectionDef[] = [
   { id: 'pert-activities', navLabel: 'Actividades y orden (EDT)', page: 'pert', presentation: true, Component: PertActivities, description: 'Las 14 actividades (A–N), su etapa y sus precedencias.' },
   { id: 'pert-durations', navLabel: 'Duraciones (3 tiempos)', page: 'pert', presentation: true, Component: PertDurations, description: 'Estimaciones optimista, más probable y pesimista, y el tiempo esperado Tₑ.' },
   { id: 'pert-results', navLabel: 'Resultados CPM', page: 'pert', presentation: true, Component: PertResults, description: 'Resultados CPM: inicio/fin temprano y lejano, holgura, ruta crítica, duración y σ.' },
+  { id: 'pert-network', navLabel: 'Grafo PERT', page: 'pert', presentation: true, Component: PertNetwork, description: 'Red del proyecto: cada actividad es un nodo con sus tiempos; la ruta crítica va resaltada.' },
+  { id: 'pert-gantt', navLabel: 'Diagrama de Gantt', page: 'pert', presentation: true, Component: PertGantt, description: 'El proyecto como calendario: barras por actividad, ruta crítica, margen y fechas de lanzamiento y fin.' },
   { id: 'pert-monitoring', navLabel: 'Seguimiento', page: 'pert', presentation: false, Component: PertMonitoring, description: 'Cómo se vigilaría el proyecto comparando lo planeado con lo real.' },
   { id: 'pert-traceability', navLabel: 'Real vs inventado', page: 'pert', presentation: false, Component: PertTraceability, description: 'Trazabilidad: qué datos son reales, cuáles hipotéticos y qué limitaciones hay.' },
   { id: 'pert-glossary', navLabel: 'Glosario', page: 'pert', presentation: false, Component: PertGlossary, description: 'Términos clave de gestión de proyectos (PERT, CPM, holgura, ruta crítica…).' },
@@ -130,6 +134,8 @@ export const PRESENTATION_ORDER: string[] = [
   'pert-activities',
   'pert-durations',
   'pert-results',
+  'pert-network',
+  'pert-gantt',
 ];
 
 export function presentationSections(): SectionDef[] {

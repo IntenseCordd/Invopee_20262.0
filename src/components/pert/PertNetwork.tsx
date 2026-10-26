@@ -206,13 +206,85 @@ export function PertNetwork() {
       <div className="mt-16">
         <HintButtons
           hints={{
-            meaning:
-              'Las flechas que salen de F hacia G y H muestran dos trabajos que se hacen al mismo tiempo; I solo empieza cuando terminan ambos. La cadena en naranja es la ruta crítica: define la duración total (' +
-              fmt(results.duration, 2) +
-              ' días).',
+            why: 'El grafo PERT dibuja el proyecto como una red: cada actividad es un nodo y las flechas muestran qué debe terminar antes de qué. Sirve para ver de un vistazo el orden de las tareas, cuáles se hacen en paralelo y cuál es el camino sin margen (la ruta crítica) que define la duración total.',
+            how: <NodeAnatomy />,
+            meaning: (
+              <div style={{ textAlign: 'left', lineHeight: 1.7 }}>
+                <p style={{ marginTop: 0 }}>
+                  <strong>Holgura = LS − ES = LF − EF.</strong> Es el margen que
+                  una actividad puede retrasarse sin mover la fecha final del
+                  proyecto.
+                </p>
+                <ul style={{ paddingLeft: 20, margin: 0 }}>
+                  <li>
+                    <strong style={{ color: CRIT }}>Nodos naranjas (holgura 0):</strong>{' '}
+                    forman la <strong>ruta crítica</strong>. Si una se atrasa un
+                    día, todo el proyecto se atrasa un día.
+                  </li>
+                  <li>
+                    <strong style={{ color: SLACK }}>Nodos grises (holgura &gt; 0):</strong>{' '}
+                    tienen margen. Por ejemplo, B puede retrasarse{' '}
+                    {fmt(results.byActivity['B']?.slack ?? 0, 2)} días y H{' '}
+                    {fmt(results.byActivity['H']?.slack ?? 0, 2)} día sin afectar
+                    la entrega; su holgura aparece bajo el nodo.
+                  </li>
+                </ul>
+                <p style={{ marginBottom: 0 }}>
+                  Las flechas que salen de F hacia G y H son dos trabajos en
+                  paralelo; I solo empieza cuando terminan ambos. La cadena
+                  naranja fija la duración total:{' '}
+                  <strong>{fmt(results.duration, 2)} días hábiles</strong>.
+                </p>
+              </div>
+            ),
           }}
         />
       </div>
     </Card>
+  );
+}
+
+/**
+ * NodeAnatomy — mini diagrama que explica las cuatro esquinas de un nodo del
+ * grafo (inicio/fin temprano y lejano) y la duración bajo el nodo.
+ */
+function NodeAnatomy() {
+  const x = 150;
+  const y = 16;
+  const w = 96;
+  const h = 66;
+  const line = '#9a5e12';
+  return (
+    <div style={{ textAlign: 'left', lineHeight: 1.7 }}>
+      <p style={{ marginTop: 0 }}>
+        Cada nodo se divide en cuatro. Así se lee:
+      </p>
+      <svg viewBox="0 0 400 110" width="100%" style={{ maxWidth: 420 }} role="img">
+        {/* nodo de ejemplo */}
+        <rect x={x} y={y} width={w} height={h} rx={8} fill={CRIT} stroke={line} strokeWidth={1.5} />
+        <line x1={x} y1={y + h / 2} x2={x + w} y2={y + h / 2} stroke={line} opacity={0.7} />
+        <line x1={x + w / 2} y1={y} x2={x + w / 2} y2={y + 16} stroke={line} opacity={0.7} />
+        <line x1={x + w / 2} y1={y + h - 16} x2={x + w / 2} y2={y + h} stroke={line} opacity={0.7} />
+        <text x={x + w / 4} y={y + 15} textAnchor="middle" fontSize="12" fill="#fff">ES</text>
+        <text x={x + (w * 3) / 4} y={y + 15} textAnchor="middle" fontSize="12" fill="#fff">EF</text>
+        <text x={x + w / 4} y={y + h - 6} textAnchor="middle" fontSize="12" fill="#fff">LS</text>
+        <text x={x + (w * 3) / 4} y={y + h - 6} textAnchor="middle" fontSize="12" fill="#fff">LF</text>
+        <circle cx={x + w / 2} cy={y + h / 2} r={13} fill="#fff" opacity={0.95} />
+        <text x={x + w / 2} y={y + h / 2 + 5} textAnchor="middle" fontSize="15" fontWeight={800} fill={line}>X</text>
+        <text x={x + w / 2} y={y + h + 16} textAnchor="middle" fontSize="12" fontWeight={650} fill="#1d2430">Tₑ</text>
+        {/* llamadas */}
+        <text x={x - 8} y={y + 15} textAnchor="end" fontSize="11" fill="#5b6472">Inicio temprano</text>
+        <text x={x + w + 8} y={y + 15} textAnchor="start" fontSize="11" fill="#5b6472">Fin temprano</text>
+        <text x={x - 8} y={y + h - 6} textAnchor="end" fontSize="11" fill="#5b6472">Inicio lejano</text>
+        <text x={x + w + 8} y={y + h - 6} textAnchor="start" fontSize="11" fill="#5b6472">Fin lejano</text>
+      </svg>
+      <ul style={{ paddingLeft: 20, margin: '8px 0 0' }}>
+        <li><strong>ES</strong> (inicio temprano): lo más pronto que la actividad puede empezar.</li>
+        <li><strong>EF</strong> (fin temprano): ES + duración esperada.</li>
+        <li><strong>LS</strong> (inicio lejano): lo más tarde que puede empezar sin retrasar el proyecto.</li>
+        <li><strong>LF</strong> (fin lejano): lo más tarde que puede terminar sin retrasar el proyecto.</li>
+        <li><strong>X</strong>: la letra de la actividad; <strong>Tₑ</strong>: su duración esperada (bajo el nodo).</li>
+      </ul>
+    </div>
   );
 }

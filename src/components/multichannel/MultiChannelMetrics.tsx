@@ -39,14 +39,14 @@ function buildRows(
     {
       char: 'P₀',
       formula: '1 / [ Σ aⁿ/n! + aˢ/(s!(1−ρ)) ]',
-      substitution: `a = ${fmt(m.a, 4)}; s = ${m.servers}; ρ = ${fmt(m.rho, 4)}`,
+      substitution: `1 / (${fmt(m.sumTerms, 4)} + ${fmt(m.erlangTerm, 4)}) = 1 / ${fmt(m.sumTerms + m.erlangTerm, 4)}`,
       result: fmt(m.p0, 4),
       meaning: `~${fmtPct(m.p0, 2)} del tiempo no hay ningún run: los ${m.servers} canales están libres.`,
     },
     {
       char: 'Pw',
       formula: '[ aˢ/(s!(1−ρ)) ] · P₀  (Erlang C)',
-      substitution: `prob. de que los ${m.servers} canales estén ocupados`,
+      substitution: `${fmt(m.erlangTerm, 6)} × ${fmt(m.p0, 6)}`,
       result: fmt(m.pw, 4),
       meaning: `Solo ~${fmtPct(m.pw, 2)} de los runs encuentra todos los canales ocupados y debe esperar.`,
     },

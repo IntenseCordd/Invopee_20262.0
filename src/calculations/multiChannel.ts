@@ -55,6 +55,8 @@ export function calculateMMsMetrics(
       rho,
       p0: NaN,
       pw: NaN,
+      sumTerms: NaN,
+      erlangTerm: NaN,
       lq: Infinity,
       l: Infinity,
       wq: Infinity,
@@ -77,7 +79,22 @@ export function calculateMMsMetrics(
   const wq = lq / lambda;
   const w = wq + 1 / mu;
 
-  return { lambda, mu, servers: s, a, rho, p0, pw, lq, l, wq, w, stable: true };
+  return {
+    lambda,
+    mu,
+    servers: s,
+    a,
+    rho,
+    p0,
+    pw,
+    sumTerms: sum,
+    erlangTerm: lastTerm,
+    lq,
+    l,
+    wq,
+    w,
+    stable: true,
+  };
 }
 
 /** Genera las filas P(n=k), P(n≤k) y P(n>k) para k = 0..levels. */

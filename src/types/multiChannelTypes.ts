@@ -68,6 +68,10 @@ export interface MMsMetrics {
   rho: number; // ρ = a/s = λ/(s·μ) (utilización por canal)
   p0: number; // P0 — prob. sistema vacío
   pw: number; // Pw — prob. de esperar (Erlang C)
+  /** Σ(n=0..s−1) aⁿ/n! — primera parte del denominador de P0. */
+  sumTerms: number;
+  /** aˢ/(s!·(1−ρ)) — término de Erlang; Pw = erlangTerm · P0. */
+  erlangTerm: number;
   lq: number; // nº medio en cola
   l: number; // nº medio en sistema
   wq: number; // tiempo medio en cola (días)

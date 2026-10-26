@@ -35,16 +35,21 @@ function buildRows(
   single: MMsMetrics,
   improved: MMsMetrics,
   multi: MMsMetrics,
-  unit: TimeDisplayUnit
+  unit: TimeDisplayUnit,
+  projects: number
 ): Row[] {
   const ratio = (m: MMsMetrics) => (isFinite(m.w) ? m.wq / (1 / m.mu) : NaN);
+  const projLabel = `${projects} proyecto${projects === 1 ? '' : 's'}`;
   return [
     {
       char: 'λ (llegadas)',
       s1: `${fmt(single.lambda, 2)} (1 proyecto)`,
       s2: `${fmt(improved.lambda, 2)} (1 proyecto)`,
-      s3: `${fmt(multi.lambda, 2)} (todos)`,
-      meaning: 'En el escenario 3 llegan muchas más ejecuciones.',
+      s3: `${fmt(multi.lambda, 2)} (${projLabel})`,
+      meaning:
+        projects > 1
+          ? `En el escenario 3 llegan ${projects}× más ejecuciones (la carga de todos los proyectos).`
+          : 'Con n = 1, los tres escenarios reciben la misma carga; solo cambian el nº de canales y la velocidad.',
     },
     {
       char: 'μ por canal',
@@ -123,7 +128,8 @@ export function MultiChannelComparison() {
   const { data, results, setImprovementFactor, setTimeUnit } = useMultiChannel();
   const { single, singleImproved, multi } = results.scenarios;
   const unit = normalizeTimeUnit(data.labels.timeUnit);
-  const rows = buildRows(single, singleImproved, multi, unit);
+  const n = data.projects;
+  const rows = buildRows(single, singleImproved, multi, unit, n);
 
   return (
     <Card
@@ -132,11 +138,23 @@ export function MultiChannelComparison() {
       badge="Parte 5"
     >
       <div className="note" style={{ marginBottom: 16 }}>
-        En los escenarios 1 y 2 la carga es la de un solo proyecto (λ ={' '}
-        {fmt(single.lambda, 2)}); en el escenario 3 es la de los{' '}
-        {data.projects} proyectos (λ = {fmt(multi.lambda, 2)}). Por eso los Lq y
-        L absolutos no son comparables entre el 3 y los otros dos: lo comparable
-        es la utilización y la espera medida contra la duración del run.
+        {n > 1 ? (
+          <>
+            En los escenarios 1 y 2 la carga es la de un solo proyecto (λ ={' '}
+            {fmt(single.lambda, 2)}); en el escenario 3 es la de los {n}{' '}
+            proyectos (λ = {fmt(multi.lambda, 2)}). Por eso los Lq y L absolutos
+            no son comparables entre el 3 y los otros dos: lo comparable es la
+            utilización y la espera medida contra la duración del run.
+          </>
+        ) : (
+          <>
+            Con n = 1, los tres escenarios reciben la misma carga (λ ={' '}
+            {fmt(multi.lambda, 2)}): la diferencia está solo en el número de
+            canales (1 vs. 5) y, en el escenario 2, en la velocidad del runner.
+            Sube n para ver cómo los 5 canales absorben la carga de varios
+            proyectos.
+          </>
+        )}
       </div>
 
       <div
@@ -219,18 +237,27 @@ export function MultiChannelComparison() {
           <div className="stat__value">
             {timeText(single.w, unit)} → {timeText(multi.w, unit)}
           </div>
-          <div className="stat__hint">Casi igual pese a 89× más carga</div>
+          <div className="stat__hint">
+            {n > 1 ? `Casi igual pese a ${n}× más carga` : 'Misma carga; cambia el nº de canales'}
+          </div>
         </div>
       </div>
 
       <div className="mt-16">
         <HintButtons
           hints={{
-            why: 'La comparación muestra por qué no basta un solo runner: con la carga de toda la empresa, un runner sería inestable (λ/μ = ' +
+            why:
+              'La comparación muestra el efecto del número de canales. Con la carga de todos los proyectos (n = ' +
+              n +
+              '), un solo runner tendría λ/μ = ' +
               fmt(multi.lambda / multi.mu, 2) +
-              ' > 1). Los 5 runners absorben esa carga sin que los runs esperen de más.',
+              (multi.lambda / multi.mu >= 1
+                ? ' > 1 y sería inestable: los 5 runners son los que absorben esa carga.'
+                : ', estable; al subir n se ve cómo los 5 canales evitan la saturación que tendría un solo runner.'),
             meaning:
-              'Al pasar de 1 a 5 canales, W casi no cambia aunque llegan muchas más ejecuciones: los canales múltiples son lo que permite escalar la carga de toda la empresa.',
+              n > 1
+                ? `Al pasar de 1 a 5 canales, W casi no cambia aunque llegan ${n}× más ejecuciones: los canales múltiples son lo que permite escalar la carga de varios proyectos.`
+                : 'Con n = 1 la carga es mínima y los tres escenarios se parecen. El valor de los 5 canales se aprecia al aumentar n, cuando un solo runner empezaría a saturarse.',
           }}
         />
       </div>

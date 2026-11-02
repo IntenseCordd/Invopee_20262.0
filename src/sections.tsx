@@ -37,6 +37,8 @@ import { PertDurations } from './components/pert/PertDurations';
 import { PertResults } from './components/pert/PertResults';
 import { PertNetwork } from './components/pert/PertNetwork';
 import { PertGantt } from './components/pert/PertGantt';
+import { PertCrashData } from './components/pert/PertCrashData';
+import { PertCrashSchedules } from './components/pert/PertCrashSchedules';
 import { PertMonitoring } from './components/pert/PertMonitoring';
 import { PertTraceability } from './components/pert/PertTraceability';
 import { PertGlossary } from './components/pert/PertGlossary';
@@ -105,6 +107,8 @@ export const SECTIONS: SectionDef[] = [
   { id: 'pert-results', navLabel: 'Resultados CPM', page: 'pert', presentation: true, Component: PertResults, description: 'Resultados CPM: inicio/fin temprano y lejano, holgura, ruta crítica, duración y σ.' },
   { id: 'pert-network', navLabel: 'Grafo PERT', page: 'pert', presentation: true, Component: PertNetwork, description: 'Red del proyecto: cada actividad es un nodo con sus tiempos; la ruta crítica va resaltada.' },
   { id: 'pert-gantt', navLabel: 'Diagrama de Gantt', page: 'pert', presentation: true, Component: PertGantt, description: 'El proyecto como calendario: barras por actividad, ruta crítica, margen y fechas de lanzamiento y fin.' },
+  { id: 'pert-crash-data', navLabel: 'Aceleración: tiempos y costos', page: 'pert', presentation: true, Component: PertCrashData, description: 'Tiempos y costos normales y urgentes (Tn, Tc, Cn, Cc), la reducción máxima TR y el costo por día ganado S.' },
+  { id: 'pert-crash-schedules', navLabel: 'Programas y curva tiempo-costo', page: 'pert', presentation: true, Component: PertCrashSchedules, description: 'Los programas factibles paso a paso y la curva que relaciona la duración del proyecto con su costo.' },
   { id: 'pert-monitoring', navLabel: 'Seguimiento', page: 'pert', presentation: false, Component: PertMonitoring, description: 'Cómo se vigilaría el proyecto comparando lo planeado con lo real.' },
   { id: 'pert-traceability', navLabel: 'Real vs inventado', page: 'pert', presentation: false, Component: PertTraceability, description: 'Trazabilidad: qué datos son reales, cuáles hipotéticos y qué limitaciones hay.' },
   { id: 'pert-glossary', navLabel: 'Glosario', page: 'pert', presentation: false, Component: PertGlossary, description: 'Términos clave de gestión de proyectos (PERT, CPM, holgura, ruta crítica…).' },
@@ -136,6 +140,8 @@ export const PRESENTATION_ORDER: string[] = [
   'pert-results',
   'pert-network',
   'pert-gantt',
+  'pert-crash-data',
+  'pert-crash-schedules',
 ];
 
 export function presentationSections(): SectionDef[] {

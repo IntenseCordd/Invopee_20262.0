@@ -11,7 +11,7 @@ export function PertReferences() {
     <Card
       title="Referencias"
       subtitle="Todas las páginas web se consultaron el 25 de octubre de 2026"
-      badge="Sección 12"
+      badge="Sección 14"
     >
       <ol style={{ textAlign: 'left', lineHeight: 1.8, paddingLeft: 24, listStyle: 'none' }}>
         {data.references.map((r) => (

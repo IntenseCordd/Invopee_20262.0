@@ -12,7 +12,7 @@ export function PertTraceability() {
     <Card
       title="Qué es real, qué es inventado y qué falta"
       subtitle="Trazabilidad de los datos usados en el trabajo"
-      badge="Sección 10"
+      badge="Sección 12"
     >
       <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <div>

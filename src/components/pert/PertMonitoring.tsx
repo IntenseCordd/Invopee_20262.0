@@ -11,7 +11,7 @@ export function PertMonitoring() {
     <Card
       title="Cómo se vigilaría el proyecto"
       subtitle="Controlar un proyecto es comparar lo planeado con lo que de verdad pasó"
-      badge="Sección 9"
+      badge="Sección 11"
     >
       <ul style={{ textAlign: 'left', lineHeight: 1.7, paddingLeft: 20 }}>
         {data.monitoring.map((m, i) => (

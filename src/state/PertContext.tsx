@@ -11,15 +11,17 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
-import type { PertData, PertResults } from '../types/pertTypes';
+import type { PertData, PertResults, CrashedResults } from '../types/pertTypes';
 import { defaultPertData } from '../data/pertData';
-import { runPert } from '../calculations/pert';
+import { runPert, runCrashed } from '../calculations/pert';
 
 type TimeField = 'optimistic' | 'mostLikely' | 'pessimistic';
 
 interface PertContextValue {
   data: PertData;
   results: PertResults;
+  /** Red recalculada con los tiempos acelerados; null si no hay datos. */
+  crashed: CrashedResults | null;
   /** Actualiza una de las tres estimaciones de una actividad. */
   setEstimate: (activityId: string, field: TimeField, value: number) => void;
   reset: () => void;
@@ -33,6 +35,7 @@ export function PertProvider({ children }: { children: ReactNode }) {
   );
 
   const results = useMemo(() => runPert(data), [data]);
+  const crashed = useMemo(() => runCrashed(data, results), [data, results]);
 
   const setEstimate = useCallback(
     (activityId: string, field: TimeField, value: number) => {
@@ -50,7 +53,7 @@ export function PertProvider({ children }: { children: ReactNode }) {
     setData(structuredClone(defaultPertData));
   }, []);
 
-  const value: PertContextValue = { data, results, setEstimate, reset };
+  const value: PertContextValue = { data, results, crashed, setEstimate, reset };
 
   return <PertContext.Provider value={value}>{children}</PertContext.Provider>;
 }

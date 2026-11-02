@@ -53,6 +53,29 @@ export interface Reference {
   url?: string;
 }
 
+/**
+ * Datos de aceleración ("crashing") de una actividad.
+ * Tn (tiempo normal) no se guarda: es el tiempo esperado Tₑ ya calculado.
+ */
+export interface CrashActivity {
+  id: string;
+  /** Tc: tiempo reducido, el menor posible con el máximo de recursos. */
+  crashTime: number;
+  /** Cn: costo con tiempo normal (USD). */
+  normalCost: number;
+  /** Cc: costo con tiempo reducido (USD). */
+  crashCost: number;
+}
+
+/** Bloque de datos del método de aceleración (intercambio tiempo-costo). */
+export interface CrashingData {
+  /** Costo del proyecto sin acelerar (suma de Cn). */
+  normalTotalCost: number;
+  /** Costo del programa acelerado elegido. */
+  crashedTotalCost: number;
+  activities: CrashActivity[];
+}
+
 /** Modelo central de datos del proyecto. Única fuente de entrada. */
 export interface PertData {
   meta: {
@@ -73,6 +96,8 @@ export interface PertData {
   traceability: { real: string[]; hypothetical: string[]; limitations: string[] };
   glossary: GlossaryTerm[];
   references: Reference[];
+  /** Datos de aceleración; opcional porque no todo caso los tiene. */
+  crashing?: CrashingData;
 }
 
 /* ------------------------------------------------------------------ */
@@ -109,4 +134,61 @@ export interface PertResults {
   projectStdDev: number;
   /** Duración solo hasta el lanzamiento (sin la actividad de soporte final). */
   durationToLaunch: number;
+}
+
+/** Resultado del programa acelerado: misma red, con las duraciones reducidas. */
+export interface CrashedResults {
+  byActivity: Record<string, ActivityResult>;
+  /** Duración de cada actividad en el programa acelerado. */
+  durationById: Record<string, number>;
+  /** Duración del proyecto acelerado. */
+  duration: number;
+  criticalPath: string[];
+  /** Costo total del programa acelerado (USD). */
+  totalCost: number;
+  /** Costo del proyecto sin acelerar (USD). */
+  normalTotalCost: number;
+  /** Tabla de datos por actividad: Tn, Tc, TR, Cn, Cc y S. */
+  rows: CrashRow[];
+  /** Programas factibles, del más lento y barato al más rápido y caro. */
+  schedules: CrashStep[];
+  /** Duración del proyecto sin acelerar. */
+  normalDuration: number;
+}
+
+/** Fila de la tabla de aceleración de una actividad. */
+export interface CrashRow {
+  id: string;
+  name: string;
+  predecessors: string[];
+  /** Tn: tiempo normal esperado. */
+  normalTime: number;
+  /** Tc: tiempo reducido. */
+  crashTime: number;
+  /** TR = Tn − Tc: reducción máxima posible. */
+  maxReduction: number;
+  /** Cn: costo normal. */
+  normalCost: number;
+  /** Cc: costo reducido. */
+  crashCost: number;
+  /** S = (Cc − Cn) / TR; null si la actividad no admite reducción. */
+  costPerDay: number | null;
+  /** Duración de la actividad en el programa más acelerado. */
+  crashedTime: number;
+}
+
+/** Un programa factible: una forma posible de ejecutar el proyecto. */
+export interface CrashStep {
+  /** Número de programa; 0 es el proyecto sin acelerar. */
+  n: number;
+  /** Duración del proyecto en este programa. */
+  duration: number;
+  /** Costo total del proyecto en este programa (USD). */
+  totalCost: number;
+  /** Actividades acortadas en este tramo (vacío en el programa 0). */
+  activities: string[];
+  /** Días ganados respecto del programa anterior. */
+  gained: number;
+  /** Costo por día del tramo: suma de las S de `activities`. */
+  costPerDay: number | null;
 }

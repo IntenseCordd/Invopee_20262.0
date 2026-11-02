@@ -8,7 +8,7 @@ export function PertGlossary() {
   const { data } = usePert();
 
   return (
-    <Card title="Glosario" subtitle="Términos clave de gestión de proyectos" badge="Sección 11">
+    <Card title="Glosario" subtitle="Términos clave de gestión de proyectos" badge="Sección 13">
       <table className="data-table">
         <thead>
           <tr>

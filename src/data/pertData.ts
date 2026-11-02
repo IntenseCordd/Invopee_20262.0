@@ -7,6 +7,9 @@
  */
 import type { PertData } from '../types/pertTypes';
 
+/** 7/6 = 1.1667 días: tiempo esperado de C, que no admite reducción. */
+const C_TIME = 7 / 6;
+
 export const defaultPertData: PertData = {
   meta: {
     title: 'Cómo se planifica un proyecto de software',
@@ -22,6 +25,7 @@ export const defaultPertData: PertData = {
       'Se parece a construir una casa: primero se habla con el dueño, luego la lista de lo que necesita, el calendario y el presupuesto, y luego los planos. Después se construye, se inspecciona, se entregan las llaves y queda una garantía. Con el software pasa casi igual.',
       'Para hacer cuentas inventamos el proyecto PanDía: una app para que los clientes de una cadena de panaderías (ficticia) pidan y recojan en la tienda. Los pasos del proceso son reales [1][2]; el proyecto, el cliente, el presupuesto y la mayoría de las duraciones son hipotéticos.',
       'Con las duraciones estimadas, el proyecto tardaría en promedio 94.33 días hábiles (unas 19 semanas). Hay una cadena de 12 actividades sin ningún margen de retraso (la "ruta crítica"): si cualquiera se atrasa, todo el proyecto se atrasa.',
+      'Las últimas secciones responden una pregunta más: ¿y si el cliente lo quiere antes? Pagando horas extra y más personal, el proyecto puede bajar a 72.17 días hábiles (22.17 días menos) por USD 9,736 adicionales. Los costos de esa aceleración son hipotéticos [9].',
     ],
   },
   stages: [
@@ -84,14 +88,17 @@ export const defaultPertData: PertData = {
       'El tamaño de los equipos',
       'El orden de las actividades dentro de cada etapa y el paralelismo de A con B y de G con H',
       'Las fechas calendario de lanzamiento y fin (no cuentan festivos)',
+      'Los costos normales y urgentes de cada actividad, y los tiempos urgentes del escenario acelerado [9]',
     ],
     limitations: [
       'Innowise no publica cuánto dura cada etapa; casi todas las duraciones se apoyan en rangos de la industria [4][5][6] o son hipotéticas.',
       'La unión de las dos descripciones del proceso en 11 etapas es interpretación nuestra.',
       'No se tuvieron en cuenta festivos ni vacaciones.',
+      'Innowise tampoco publica cuánto cuesta acelerar sus actividades: el escenario acelerado del grafo usa costos inventados [9].',
     ],
   },
   glossary: [
+    { term: 'Aceleración (crashing)', meaning: 'Pagar más para acortar actividades y terminar el proyecto antes.' },
     { term: 'Actividad', meaning: 'Una tarea concreta dentro del proyecto, como "diseñar la base de datos".' },
     { term: 'Alcance', meaning: 'Lo que el proyecto incluye y lo que no incluye.' },
     { term: 'API', meaning: 'Una "puerta" por la que dos programas se hablan e intercambian información.' },
@@ -108,6 +115,8 @@ export const defaultPertData: PertData = {
     { term: 'Requisito', meaning: 'Algo que el programa debe hacer o cumplir.' },
     { term: 'Riesgo', meaning: 'Algo que podría salir mal y afectar el proyecto.' },
     { term: 'Ruta crítica', meaning: 'La cadena de actividades sin margen de retraso; define la duración del proyecto.' },
+    { term: 'Tiempo urgente (Tc)', meaning: 'Lo menos que puede tardar una actividad usando el máximo de recursos.' },
+    { term: 'Costo por día ganado (S)', meaning: 'Cuánto cuesta adelantar un día una actividad: (Cc − Cn) ÷ (Tn − Tc).' },
     { term: 'Desviación estándar', meaning: 'Medida de cuánto puede alejarse el resultado real del promedio estimado.' },
   ],
   references: [
@@ -119,5 +128,26 @@ export const defaultPertData: PertData = {
     { id: '[6]', text: 'Netguru. How long does it take to build an MVP? A practical guide (planificación y pruebas).', url: 'https://www.netguru.com/blog/mvp-timeline' },
     { id: '[7]', text: 'Weiss, H. J. QM for Windows (POM-QM), módulo Project Management (PERT/CPM), opción Three Time Estimate.' },
     { id: '[8]', text: 'Presentación del curso "PERT-CPM (2020-2)", diapositivas sobre tiempos tempranos y ruta crítica.' },
+    { id: '[9]', text: 'Informe complementario: "Acelerar un proyecto: ¿cuánto cuesta terminar antes?" (método de aceleración o crashing aplicado a PanDía, con tiempos y costos normales y urgentes).' },
   ],
+  crashing: {
+    normalTotalCost: 85000,
+    crashedTotalCost: 94736,
+    activities: [
+      { id: 'A', crashTime: 2, normalCost: 2000, crashCost: 2150 },
+      { id: 'B', crashTime: 1, normalCost: 1000, crashCost: 1140 },
+      { id: 'C', crashTime: C_TIME, normalCost: 800, crashCost: 800 },
+      { id: 'D', crashTime: 2, normalCost: 2400, crashCost: 2600 },
+      { id: 'E', crashTime: 5, normalCost: 4500, crashCost: 5150 },
+      { id: 'F', crashTime: 7, normalCost: 6000, crashCost: 6580 },
+      { id: 'G', crashTime: 3, normalCost: 5000, crashCost: 5870 },
+      { id: 'H', crashTime: 2, normalCost: 3600, crashCost: 4150 },
+      { id: 'I', crashTime: 17, normalCost: 33000, crashCost: 37300 },
+      { id: 'J', crashTime: 3, normalCost: 5000, crashCost: 5760 },
+      { id: 'K', crashTime: 5, normalCost: 7000, crashCost: 7860 },
+      { id: 'L', crashTime: 2, normalCost: 2400, crashCost: 2750 },
+      { id: 'M', crashTime: 10, normalCost: 6500, crashCost: 7200 },
+      { id: 'N', crashTime: 15, normalCost: 5800, crashCost: 5800 },
+    ],
+  },
 };
